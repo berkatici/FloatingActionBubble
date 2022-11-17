@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
 class Bubble {
-  const Bubble(
-      {required this.title,
-      required this.titleStyle,
-      required this.iconColor,
-      required this.bubbleColor,
-      required this.icon,
-      required this.onPress,
-      required this.buttonWidth});
+  Bubble({
+    required this.title,
+    required this.titleStyle,
+    required this.iconColor,
+    required this.bubbleColor,
+    this.icon,
+    required this.onPress,
+    required this.buttonWidth,
+    this.iconWidget,
+  });
 
-  final IconData icon;
+  IconData? icon;
+  Widget? iconWidget;
   final Color iconColor;
   final Color bubbleColor;
   final void Function() onPress;
@@ -28,30 +31,35 @@ class BubbleMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialButton(
       shape: const StadiumBorder(),
-      padding: const EdgeInsets.only(top: 11, bottom: 13, left: 32, right: 32),
+      padding: const EdgeInsets.only(top: 13, bottom: 13, left: 32, right: 32),
       color: item.bubbleColor,
       splashColor: Colors.grey.withOpacity(0.1),
       highlightColor: Colors.grey.withOpacity(0.1),
-      elevation: 2,
-      highlightElevation: 2,
+      elevation: 10,
+      highlightElevation: 10,
       disabledColor: item.bubbleColor,
       onPressed: item.onPress,
       child: SizedBox(
         width: item.buttonWidth,
         child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
-              item.icon,
-              color: item.iconColor,
-            ),
+            item.icon != null
+                ? Icon(
+                    item.icon,
+                    color: item.iconColor,
+                  )
+                : item.iconWidget!,
             const SizedBox(
-              width: 10.0,
+              width: 20.0,
             ),
-            Text(
-              item.title,
-              style: item.titleStyle,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  item.title,
+                  style: item.titleStyle,
+                ),
+              ],
             ),
           ],
         ),
